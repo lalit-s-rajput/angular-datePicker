@@ -1,0 +1,13 @@
+.date-picker-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    height: 500px;
+    width: 700px;
+
+    .button-date-view-container {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 2;
+    }
+}
