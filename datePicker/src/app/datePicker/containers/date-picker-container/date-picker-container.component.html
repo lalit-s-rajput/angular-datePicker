@@ -1,7 +1,12 @@
 <div class="date-picker-container">
-  <app-side-panel></app-side-panel>
+  <app-side-panel
+    [currentDateString]="currentLocaleString$ | async"
+  ></app-side-panel>
   <div class="button-date-view-container">
-    <app-button-view></app-button-view>
+    <div class="button-container">
+      <app-button-view></app-button-view>
+    </div>
+
     <app-dates-view></app-dates-view>
   </div>
 </div>
