@@ -12,9 +12,9 @@ export class DatePickerContainerComponent implements OnInit {
   currentDate: Date = new Date();
   currentLocaleStringData: dateData = {
     weekday: '',
-    day: '',
+    day: 0,
     month: '',
-    year: '',
+    year: 0,
   };
   constructor(private dateService: DatePickerService) {}
   ngOnInit(): void {

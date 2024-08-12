@@ -8,9 +8,9 @@ import { dateData } from '../../core/interface';
 })
 export class SidePanelComponent {
   weekday: string = '';
-  day: string = '';
+  day: number = 0;
   month: string = '';
-  year: string = '';
+  year: number = 0;
   @Input() set currentDateString(value: dateData) {
     ({
       weekday: this.weekday,

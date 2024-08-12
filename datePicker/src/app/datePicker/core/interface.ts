@@ -1,6 +1,6 @@
 export interface dateData {
   weekday: string;
-  day: string;
+  day: number;
   month: string;
-  year: string;
+  year: number;
 }

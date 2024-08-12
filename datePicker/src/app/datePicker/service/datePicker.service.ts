@@ -10,18 +10,18 @@ export class DatePickerService {
   currentLocaleString$ = new BehaviorSubject<string>('');
   currentDateData: dateData = {
     weekday: '',
-    day: '',
+    day: 0,
     month: '',
-    year: '',
+    year: 0,
   };
   getAllDateData() {
     let dateString = this.currentLocaleString$.value;
     let splitData = dateString.split(',');
     this.currentDateData.weekday = splitData[0].trim();
     let dayMonth = splitData[1].trim().split(' ');
-    this.currentDateData.day = dayMonth[1];
+    this.currentDateData.day = Number(dayMonth[1]);
     this.currentDateData.month = dayMonth[0];
-    this.currentDateData.year = splitData[2].trim();
+    this.currentDateData.year = Number(splitData[2].trim());
     return this.currentDateData;
   }
 }

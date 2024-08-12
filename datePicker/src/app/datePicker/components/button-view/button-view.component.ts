@@ -9,7 +9,7 @@ import { dateData } from '../../core/interface';
 export class ButtonViewComponent {
   currentMonthIndex = 0;
   currentMonthValue = '';
-  currentYear = '';
+  currentYear = 0;
   monthArray = [
     'January',
     'February',
@@ -26,7 +26,31 @@ export class ButtonViewComponent {
   ];
   @Input() set currentMonthAndYear(value: dateData) {
     this.currentMonthValue = value.month;
+    this.currentMonthIndex = this.monthArray.indexOf(this.currentMonthValue);
     this.currentYear = value.year;
   }
-  @Input() set selectedYear(value: number) {}
+  prevMonth() {
+    if (this.currentMonthIndex == 0) {
+      this.currentMonthIndex = 11;
+      this.currentMonthValue = this.monthArray[this.currentMonthIndex];
+    } else {
+      this.currentMonthIndex--;
+      this.currentMonthValue = this.monthArray[this.currentMonthIndex];
+    }
+  }
+  nextMonth() {
+    if (this.currentMonthIndex == 11) {
+      this.currentMonthIndex = 0;
+      this.currentMonthValue = this.monthArray[this.currentMonthIndex];
+    } else {
+      this.currentMonthIndex++;
+      this.currentMonthValue = this.monthArray[this.currentMonthIndex];
+    }
+  }
+  prevYear() {
+    this.currentYear = this.currentYear - 1;
+  }
+  nextYear() {
+    this.currentYear = this.currentYear + 1;
+  }
 }
