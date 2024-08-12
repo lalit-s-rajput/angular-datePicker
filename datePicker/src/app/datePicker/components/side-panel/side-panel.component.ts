@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { dateData } from '../../core/interface';
 
 @Component({
   selector: 'app-side-panel',
@@ -10,14 +11,12 @@ export class SidePanelComponent {
   day: string = '';
   month: string = '';
   year: string = '';
-  @Input() set currentDateString(value: string | null) {
-    if (value) {
-      let splitData = value.split(',');
-      this.weekday = splitData[0].trim();
-      let dayMonth = splitData[1].trim().split(' ');
-      this.day = dayMonth[1];
-      this.month = dayMonth[0];
-      this.year = splitData[2].trim();
-    }
+  @Input() set currentDateString(value: dateData) {
+    ({
+      weekday: this.weekday,
+      day: this.day,
+      month: this.month,
+      year: this.year,
+    } = value);
   }
 }

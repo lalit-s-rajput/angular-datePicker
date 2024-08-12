@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { DatePickerService } from '../../service/datePicker.service';
+import { dateData } from '../../core/interface';
 
 @Component({
   selector: 'app-date-picker-container',
@@ -8,7 +10,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class DatePickerContainerComponent implements OnInit {
   currentDate: Date = new Date();
-  currentLocaleString$ = new BehaviorSubject<string>('');
+  currentLocaleStringData: dateData = {
+    weekday: '',
+    day: '',
+    month: '',
+    year: '',
+  };
+  constructor(private dateService: DatePickerService) {}
   ngOnInit(): void {
     let currentStringData = this.currentDate.toLocaleDateString(undefined, {
       weekday: 'long',
@@ -17,6 +25,7 @@ export class DatePickerContainerComponent implements OnInit {
       day: 'numeric',
     });
     console.log(currentStringData);
-    this.currentLocaleString$.next(currentStringData);
+    this.dateService.currentLocaleString$.next(currentStringData);
+    this.currentLocaleStringData = this.dateService.getAllDateData();
   }
 }
