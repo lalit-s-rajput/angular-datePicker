@@ -1,1 +1,16 @@
-<p>dates-view works!</p>
+<div class="date-view-container">
+  <table>
+    <thead>
+      <tr>
+        <th *ngFor="let month of monthsArrayKeys">{{ month.value }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let date of datesArray">
+        <td *ngFor="let month of monthsArrayKeys">
+          {{ date[month.value] }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

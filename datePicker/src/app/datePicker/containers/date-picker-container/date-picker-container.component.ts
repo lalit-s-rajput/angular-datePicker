@@ -16,6 +16,7 @@ export class DatePickerContainerComponent implements OnInit {
     month: '',
     year: 0,
   };
+  allDatesOfMonth: any = [];
   constructor(private dateService: DatePickerService) {}
   ngOnInit(): void {
     let currentStringData = this.currentDate.toLocaleDateString(undefined, {
@@ -27,5 +28,6 @@ export class DatePickerContainerComponent implements OnInit {
     console.log(currentStringData);
     this.dateService.currentLocaleString$.next(currentStringData);
     this.currentLocaleStringData = this.dateService.getAllDateData();
+    this.allDatesOfMonth = this.dateService.getAllDatesOfCurrentMonth(7, 2024);
   }
 }
