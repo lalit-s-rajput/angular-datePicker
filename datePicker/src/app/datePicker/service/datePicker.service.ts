@@ -8,12 +8,36 @@ import { dateData } from '../core/interface';
 })
 export class DatePickerService {
   currentLocaleString$ = new BehaviorSubject<string>('');
+  datesArray$ = new BehaviorSubject<{ [key: string]: number }[]>([]);
   currentDateData: dateData = {
     weekday: '',
     day: 0,
     month: '',
     year: 0,
   };
+  weekDays: string[] = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ];
+  months: string[] = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
   getAllDateData() {
     let dateString = this.currentLocaleString$.value;
     let splitData = dateString.split(',');
@@ -25,15 +49,6 @@ export class DatePickerService {
     return this.currentDateData;
   }
   getAllDatesOfCurrentMonth(month: number, year: number) {
-    let months = [
-      'Sunday',
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-    ];
     let arr = [];
     let dummyArr: [string, number][] = []; // array inside array of type string and number same as string[]
     let date = new Date(year, month, 1);
@@ -51,19 +66,9 @@ export class DatePickerService {
         obj = {};
         dummyArr = [];
       }
-      let weekDay = months[date.getDay()].slice(0, 3);
+      let weekDay = this.weekDays[date.getDay()].slice(0, 3);
       dummyArr.push([weekDay, date.getDate()]);
       date.setDate(date.getDate() + 1);
-      /**
-      let weekDay = months[date.getDay()].slice(0, 3);
-      arr.push({
-        month: date.getMonth(),
-        day: date.getDay(),
-        [weekDay]: date.getDate(),
-        dateObj: date,
-      });
-      date.setDate(date.getDate() + 1);
-       */
     }
     dummyArr.sort((a, b) => compareNumbers(a[1], b[1]));
     dummyArr.forEach((item) => {
@@ -71,6 +76,6 @@ export class DatePickerService {
     });
     arr.push({ ...obj });
     console.log(arr);
-    return arr;
+    this.datesArray$.next(arr);
   }
 }

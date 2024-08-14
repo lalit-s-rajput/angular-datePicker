@@ -10,6 +10,8 @@ import { dateData } from '../../core/interface';
 })
 export class DatePickerContainerComponent implements OnInit {
   currentDate: Date = new Date();
+  currentYear: number = 0;
+  currentMonthNumber: number = 0;
   currentLocaleStringData: dateData = {
     weekday: '',
     day: 0,
@@ -19,6 +21,8 @@ export class DatePickerContainerComponent implements OnInit {
   allDatesOfMonth: any = [];
   constructor(private dateService: DatePickerService) {}
   ngOnInit(): void {
+    this.currentYear = this.currentDate.getFullYear();
+    this.currentMonthNumber = this.currentDate.getMonth();
     let currentStringData = this.currentDate.toLocaleDateString(undefined, {
       weekday: 'long',
       year: 'numeric',
@@ -28,6 +32,24 @@ export class DatePickerContainerComponent implements OnInit {
     console.log(currentStringData);
     this.dateService.currentLocaleString$.next(currentStringData);
     this.currentLocaleStringData = this.dateService.getAllDateData();
-    this.allDatesOfMonth = this.dateService.getAllDatesOfCurrentMonth(7, 2024);
+    this.dateService.getAllDatesOfCurrentMonth(
+      this.currentMonthNumber,
+      this.currentYear
+    );
+    this.allDatesOfMonth = this.dateService.datesArray$;
+  }
+  getYear(event: number) {
+    this.currentYear = event;
+    this.dateService.getAllDatesOfCurrentMonth(
+      this.currentMonthNumber,
+      this.currentYear
+    );
+  }
+  getMonth(event: string) {
+    this.currentMonthNumber = this.dateService.months.indexOf(event);
+    this.dateService.getAllDatesOfCurrentMonth(
+      this.currentMonthNumber,
+      this.currentYear
+    );
   }
 }
