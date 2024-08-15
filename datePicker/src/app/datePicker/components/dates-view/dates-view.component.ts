@@ -22,7 +22,6 @@ export class DatesViewComponent implements OnInit, AfterViewChecked {
     // { Sun: 8, Mon: 9, Tue: 10, wed: 11, Thu: 12, Fri: 13, Sat: 14 },
   ];
   @ViewChildren('datesSelector') tdInput!: QueryList<any>;
-  prevSelector: any = null;
   currentSelectedDateNumber: any;
   @Output() getSelectedDate = new EventEmitter<number>();
   currentMonthNumber: any;
@@ -42,12 +41,13 @@ export class DatesViewComponent implements OnInit, AfterViewChecked {
   ngAfterViewChecked(): void {
     if (this.tdInput) this.setCurrentDateStyle();
   }
-  getDateValue(dateNumber: any, selector: any) {
-    this.currentSelectedDateNumber = dateNumber;
-
-    this.prevSelector = selector;
-    this.prevSelector?.classList.add('setBackGroundColor');
-    this.getSelectedDate.emit(dateNumber);
+  getDateValue(date: any, weekDay: string) {
+    if (
+      date[`test-${weekDay}`]?.['dateOb'].getMonth() === this.currentMonthNumber
+    ) {
+      this.currentSelectedDateNumber = date[weekDay];
+      this.getSelectedDate.emit(this.currentSelectedDateNumber);
+    }
   }
   getSlicedData(weekday: { value: string; index: number }) {
     return weekday.value.slice(0, 1);
@@ -66,9 +66,13 @@ export class DatesViewComponent implements OnInit, AfterViewChecked {
       }
     });
   }
-  setClassValue(date: any) {
-    return date?.dateObj?.getMonth() === this.currentMonthNumber
-      ? 'currentMonthDates'
-      : '';
+  setClassValue(date: any, weekDay: string) {
+    if (date[`test-${weekDay}`]?.['dateOb']) {
+      return date[`test-${weekDay}`]['dateOb'].getMonth() ===
+        this.currentMonthNumber
+        ? 'currentMonthDates'
+        : 'otherMonthDates';
+    }
+    return '';
   }
 }

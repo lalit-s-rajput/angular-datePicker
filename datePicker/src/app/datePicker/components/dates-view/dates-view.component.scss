@@ -21,7 +21,12 @@
         background-color: lightgray;
     }
 
-    td:hover {
+    .otherMonthDates {
+        color: lightgray;
+        cursor: default;
+    }
+
+    .currentMonthDates:hover {
         background-color: lightgray;
     }
 }

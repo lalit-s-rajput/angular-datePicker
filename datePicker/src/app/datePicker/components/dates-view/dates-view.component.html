@@ -11,8 +11,8 @@
       <tr *ngFor="let date of datesArray">
         <td
           #datesSelector
-          [ngClass]="setClassValue(date)"
-          (click)="getDateValue(date[weekday.value], datesSelector)"
+          [ngClass]="setClassValue(date, weekday.value)"
+          (click)="getDateValue(date, weekday.value)"
           *ngFor="let weekday of weekdaysArrayKeys; let i = index"
           class="single-dates-entity"
         >
