@@ -1,0 +1,24 @@
+<div class="date-view-container">
+  <table>
+    <thead>
+      <tr>
+        <th *ngFor="let weekday of weekdaysArrayKeys">
+          {{ getSlicedData(weekday) }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let date of datesArray">
+        <td
+          #datesSelector
+          [ngClass]="setClassValue(date, weekday.value)"
+          (click)="getDateValue(date, weekday.value)"
+          *ngFor="let weekday of weekdaysArrayKeys; let i = index"
+          class="single-dates-entity"
+        >
+          {{ date[weekday.value] }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
