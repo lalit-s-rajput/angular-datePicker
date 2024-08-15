@@ -11,6 +11,7 @@ export class DatePickerService {
   datesArray$ = new BehaviorSubject<{ [key: string]: number | Date | {} }[]>(
     []
   );
+  noOfDaysCurrentMonth: number = 0;
   currentDateData: dateData = {
     weekday: '',
     day: 0,
@@ -62,6 +63,48 @@ export class DatePickerService {
     }
     return arr;
   }
+  addLateralMissingDates(count: number, date: Date) {
+    let missingDates = count;
+    let newDate = new Date(date);
+    let arr: [string, number, Date][] = [];
+    while (missingDates) {
+      let weekDay = this.weekDays[newDate.getDay()].slice(0, 3);
+      arr.push([weekDay, newDate.getDate(), new Date(newDate)]);
+      newDate.setDate(newDate.getDate() + 1);
+      missingDates--;
+    }
+    return arr;
+  }
+  allLaterMissingDates(date: Date) {
+    let arr = [];
+    let extraDays = 49 - this.monthDays(date);
+    console.log(extraDays);
+    let newDate = new Date(date);
+    let dummyArr: [string, number, Date][] = [];
+    let obj: { [key: string]: number | Date | {} } = {};
+    while (extraDays) {
+      if (newDate.getDay() == 0) {
+        dummyArr.forEach((item) => {
+          obj[item[0]] = item[1];
+          obj['dateObj'] = item[2];
+          obj[`test-${item[0]}`] = { [item[0]]: item[1], dateOb: item[2] };
+        });
+        arr.push({ ...obj });
+        obj = {};
+        dummyArr = [];
+      }
+      let weekDay = this.weekDays[newDate.getDay()].slice(0, 3);
+      dummyArr.push([weekDay, newDate.getDate(), new Date(newDate)]);
+      newDate.setDate(newDate.getDate() + 1);
+      extraDays--;
+    }
+    return dummyArr;
+  }
+  monthDays(date: Date) {
+    let days = new Date(date.getFullYear(), date.getMonth(), 0);
+    console.log(days.getDate());
+    return days.getDate();
+  }
   getAllDatesOfCurrentMonth(month: number, year: number) {
     let arr = [];
     let dummyArr: [string, number, Date][] = []; // array inside array of type string and number same as string[]
@@ -74,11 +117,12 @@ export class DatePickerService {
     while (date.getMonth() == month) {
       // increase by one to get next until and run next month occurs
       if (date.getDay() == 0) {
-        dummyArr.sort((a, b) => compareNumbers(a[1], b[1]));
+        //dummyArr.sort((a, b) => compareNumbers(a[1], b[1]));
         dummyArr.forEach((item) => {
           obj[item[0]] = item[1];
           obj['dateObj'] = item[2];
-          obj[`test-${item[0]}`] = { [item[0]]: item[1], dateOb: item[2] };
+          let key = this.months[item[2].getMonth()] + '-' + item[0];
+          obj[key] = { [item[0]]: item[1], dateOb: item[2] };
         });
         arr.push({ ...obj });
         obj = {};
@@ -88,15 +132,33 @@ export class DatePickerService {
       dummyArr.push([weekDay, date.getDate(), new Date(date)]);
       date.setDate(date.getDate() + 1);
     }
-    date = new Date(year, month, 1);
-    dummyArr.sort((a, b) => compareNumbers(a[1], b[1]));
+    //let arrData = this.allLaterMissingDates(date);
+    //date = new Date(year, month, 1);
+
+    //dummyArr.sort((a, b) => compareNumbers(a[1], b[1]));
+    let count = 7 - dummyArr.length;
+    let arrData = this.addLateralMissingDates(count, date);
+    if (arrData.length) {
+      dummyArr = dummyArr.concat(arrData);
+    }
     dummyArr.forEach((item) => {
       obj[item[0]] = item[1];
       obj['dateObj'] = item[2];
-      obj[`test-${item[0]}`] = { [item[0]]: item[1], dateOb: item[2] };
+      let key = this.months[item[2].getMonth()] + '-' + item[0];
+      obj[key] = { [item[0]]: item[1], dateOb: item[2] };
     });
     arr.push({ ...obj });
-
+    if (arrData.length == 0) {
+      arrData = this.addLateralMissingDates(7, date);
+      let obj: { [key: string]: number | Date | {} } = {};
+      arrData.forEach((item) => {
+        obj[item[0]] = item[1];
+        obj['dateObj'] = item[2];
+        let key = this.months[item[2].getMonth()] + '-' + item[0];
+        obj[key] = { [item[0]]: item[1], dateOb: item[2] };
+      });
+      arr.push({ ...obj });
+    }
     console.log(arr);
     this.datesArray$.next(arr);
   }

@@ -16,6 +16,20 @@ import {
 })
 export class DatesViewComponent implements OnInit, AfterViewChecked {
   weekdaysArray: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  monthsArray: string[] = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
   weekdaysArrayKeys: { value: string; index: number }[] = [];
   datesArray: any = [
     // { Sun: 1, Mon: 2, Tue: 3, wed: 4, Thu: 5, Fri: 6, Sat: 7 },
@@ -42,9 +56,8 @@ export class DatesViewComponent implements OnInit, AfterViewChecked {
     if (this.tdInput) this.setCurrentDateStyle();
   }
   getDateValue(date: any, weekDay: string) {
-    if (
-      date[`test-${weekDay}`]?.['dateOb'].getMonth() === this.currentMonthNumber
-    ) {
+    let key = this.monthsArray[this.currentMonthNumber] + '-' + weekDay;
+    if (date[key]?.['dateOb'].getMonth() === this.currentMonthNumber) {
       this.currentSelectedDateNumber = date[weekDay];
       this.getSelectedDate.emit(this.currentSelectedDateNumber);
     }
@@ -67,12 +80,12 @@ export class DatesViewComponent implements OnInit, AfterViewChecked {
     });
   }
   setClassValue(date: any, weekDay: string) {
-    if (date[`test-${weekDay}`]?.['dateOb']) {
-      return date[`test-${weekDay}`]['dateOb'].getMonth() ===
-        this.currentMonthNumber
+    let key = this.monthsArray[this.currentMonthNumber] + '-' + weekDay;
+    if (date[key]?.['dateOb']) {
+      return date[key]['dateOb'].getMonth() === this.currentMonthNumber
         ? 'currentMonthDates'
         : 'otherMonthDates';
     }
-    return '';
+    return 'otherMonthDates';
   }
 }
