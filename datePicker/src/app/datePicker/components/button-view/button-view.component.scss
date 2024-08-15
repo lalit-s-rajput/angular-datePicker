@@ -1,18 +1,26 @@
 .button-view-container {
     display: flex;
     flex-direction: row;
-    gap: 50px;
+    flex-grow: 1;
+    flex-basis: 0;
 
-    .view-container {
+    .month-view-container,
+    .year-view-container {
         display: flex;
         flex-direction: row;
         align-items: baseline;
         gap: 15px;
+        width: 50%;
     }
 
 
     img {
         cursor: pointer;
         height: 12px;
+        color: gray;
+    }
+
+    h2 {
+        color: gray;
     }
 }
