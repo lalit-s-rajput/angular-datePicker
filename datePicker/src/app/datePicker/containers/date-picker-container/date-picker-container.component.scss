@@ -5,6 +5,8 @@
     height: 500px;
     width: 700px;
     gap: 10px;
+    align-items: center;
+    margin: 0 auto;
 
     .button-date-view-container {
         display: flex;
@@ -12,9 +14,5 @@
         flex-grow: 2;
     }
 
-    .button-container {
-        display: flex;
-        flex-direction: row;
-        gap: 50px;
-    }
+
 }

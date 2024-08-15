@@ -6,9 +6,15 @@
     <div class="button-container">
       <app-button-view
         [currentMonthAndYear]="currentLocaleStringData"
+        (sendYear)="getYear($event)"
+        (sendMonth)="getMonth($event)"
       ></app-button-view>
     </div>
 
-    <app-dates-view></app-dates-view>
+    <app-dates-view
+      [_datesArray]="allDatesOfMonth | async"
+      [_currentMonthNumber]="currentMonthNumber"
+      (getSelectedDate)="getSelectedDate($event)"
+    ></app-dates-view>
   </div>
 </div>

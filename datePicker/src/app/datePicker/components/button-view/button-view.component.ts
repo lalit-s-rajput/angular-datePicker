@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { dateData } from '../../core/interface';
 
 @Component({
@@ -24,6 +24,8 @@ export class ButtonViewComponent {
     'November',
     'December',
   ];
+  @Output() sendMonth = new EventEmitter<string>();
+  @Output() sendYear = new EventEmitter<number>();
   @Input() set currentMonthAndYear(value: dateData) {
     this.currentMonthValue = value.month;
     this.currentMonthIndex = this.monthArray.indexOf(this.currentMonthValue);
@@ -37,6 +39,7 @@ export class ButtonViewComponent {
       this.currentMonthIndex--;
       this.currentMonthValue = this.monthArray[this.currentMonthIndex];
     }
+    this.sendMonth.emit(this.currentMonthValue);
   }
   nextMonth() {
     if (this.currentMonthIndex == 11) {
@@ -46,11 +49,14 @@ export class ButtonViewComponent {
       this.currentMonthIndex++;
       this.currentMonthValue = this.monthArray[this.currentMonthIndex];
     }
+    this.sendMonth.emit(this.currentMonthValue);
   }
   prevYear() {
     this.currentYear = this.currentYear - 1;
+    this.sendYear.emit(this.currentYear);
   }
   nextYear() {
     this.currentYear = this.currentYear + 1;
+    this.sendYear.emit(this.currentYear);
   }
 }
