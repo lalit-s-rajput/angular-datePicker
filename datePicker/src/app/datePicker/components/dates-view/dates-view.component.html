@@ -2,13 +2,21 @@
   <table>
     <thead>
       <tr>
-        <th *ngFor="let month of monthsArrayKeys">{{ month.value }}</th>
+        <th *ngFor="let weekday of weekdaysArrayKeys">
+          {{ getSlicedData(weekday) }}
+        </th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let date of datesArray">
-        <td *ngFor="let month of monthsArrayKeys">
-          {{ date[month.value] }}
+        <td
+          #datesSelector
+          [ngClass]="setClassValue(date)"
+          (click)="getDateValue(date[weekday.value], datesSelector)"
+          *ngFor="let weekday of weekdaysArrayKeys; let i = index"
+          class="single-dates-entity"
+        >
+          {{ date[weekday.value] }}
         </td>
       </tr>
     </tbody>

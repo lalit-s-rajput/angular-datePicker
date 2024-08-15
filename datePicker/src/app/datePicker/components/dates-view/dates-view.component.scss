@@ -6,5 +6,22 @@
         text-align: left;
         color: #37B7C3;
         margin: 0 20px;
+        font-size: 20px;
+        font-weight: 700;
+        text-align: center;
+        border-radius: 8px;
+    }
+
+    .single-dates-entity {
+        color: gray;
+        cursor: pointer;
+    }
+
+    .setBackGroundColor {
+        background-color: lightgray;
+    }
+
+    td:hover {
+        background-color: lightgray;
     }
 }

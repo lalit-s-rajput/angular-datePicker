@@ -8,7 +8,7 @@ import { dateData } from '../core/interface';
 })
 export class DatePickerService {
   currentLocaleString$ = new BehaviorSubject<string>('');
-  datesArray$ = new BehaviorSubject<{ [key: string]: number }[]>([]);
+  datesArray$ = new BehaviorSubject<{ [key: string]: number | Date }[]>([]);
   currentDateData: dateData = {
     weekday: '',
     day: 0,
@@ -50,29 +50,31 @@ export class DatePickerService {
   }
   getAllDatesOfCurrentMonth(month: number, year: number) {
     let arr = [];
-    let dummyArr: [string, number][] = []; // array inside array of type string and number same as string[]
+    let dummyArr: [string, number, Date][] = []; // array inside array of type string and number same as string[]
     let date = new Date(year, month, 1);
     let compareNumbers = function (a: number, b: number) {
       return a - b;
     };
-    let obj: { [key: string]: number } = {};
+    let obj: { [key: string]: number | Date } = {};
     while (date.getMonth() == month) {
       if (date.getDay() == 0) {
         dummyArr.sort((a, b) => compareNumbers(a[1], b[1]));
         dummyArr.forEach((item) => {
           obj[item[0]] = item[1];
+          obj['dateObj'] = item[2];
         });
         arr.push({ ...obj });
         obj = {};
         dummyArr = [];
       }
       let weekDay = this.weekDays[date.getDay()].slice(0, 3);
-      dummyArr.push([weekDay, date.getDate()]);
+      dummyArr.push([weekDay, date.getDate(), date]);
       date.setDate(date.getDate() + 1);
     }
     dummyArr.sort((a, b) => compareNumbers(a[1], b[1]));
     dummyArr.forEach((item) => {
       obj[item[0]] = item[1];
+      obj['dateObj'] = item[2];
     });
     arr.push({ ...obj });
     console.log(arr);
