@@ -68,15 +68,17 @@ export class DatePickerService {
         dummyArr = [];
       }
       let weekDay = this.weekDays[date.getDay()].slice(0, 3);
-      dummyArr.push([weekDay, date.getDate(), date]);
+      dummyArr.push([weekDay, date.getDate(), new Date(date)]);
       date.setDate(date.getDate() + 1);
     }
+    date = new Date(year, month, 1);
     dummyArr.sort((a, b) => compareNumbers(a[1], b[1]));
     dummyArr.forEach((item) => {
       obj[item[0]] = item[1];
       obj['dateObj'] = item[2];
     });
     arr.push({ ...obj });
+
     console.log(arr);
     this.datesArray$.next(arr);
   }

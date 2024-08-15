@@ -30,7 +30,7 @@ export class DatesViewComponent implements OnInit, AfterViewChecked {
     this.datesArray = val;
   }
   @Input() set _currentMonthNumber(val: any) {
-    if (val) {
+    if (val !== undefined) {
       this.currentMonthNumber = val;
     }
   }
@@ -38,10 +38,8 @@ export class DatesViewComponent implements OnInit, AfterViewChecked {
     this.weekdaysArrayKeys = this.weekdaysArray.map((item, index) => {
       return { value: item, index: index };
     });
-    console.log(this.weekdaysArrayKeys);
   }
   ngAfterViewChecked(): void {
-    console.log('view checked');
     if (this.tdInput) this.setCurrentDateStyle();
   }
   getDateValue(dateNumber: any, selector: any) {
@@ -57,6 +55,7 @@ export class DatesViewComponent implements OnInit, AfterViewChecked {
   setCurrentDateStyle() {
     this.tdInput.forEach((element) => {
       if (
+        this.currentSelectedDateNumber &&
         element.nativeElement.classList.contains('currentMonthDates') &&
         element.nativeElement.innerHTML.trim() ===
           this.currentSelectedDateNumber.toString()
@@ -68,7 +67,7 @@ export class DatesViewComponent implements OnInit, AfterViewChecked {
     });
   }
   setClassValue(date: any) {
-    return date.dateObj.getMonth() === this.currentMonthNumber + 1
+    return date?.dateObj?.getMonth() === this.currentMonthNumber
       ? 'currentMonthDates'
       : '';
   }
